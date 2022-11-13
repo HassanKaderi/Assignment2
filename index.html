@@ -5,14 +5,41 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body class="bg-red-300">
+    <link rel="stylesheet" href="./tailwind/output.css">
+    <script src="./starting-files/artists.json"></script>
+    <script src="./starting-files/genres.json"></script>
+    <script src="./starting-files/sample-songs.json"></script>
     
-<section id="FirstPage" class="bg-slate-600">
-    <div class="text-red-300">YAo</div>
-</section>
-
-
+</head>
+<body class="bg-slate-800">
+    <section class="text-white text-center">
+        <div>
+            <h1 class="header text-4xl">Header</h1>
+            <button>Close View</button>
+            <button>Credits</button>
+        </div>
+        <div class="main flex justify-around bg-slate-900 w-auto p-8">
+            <div class="left-side bg-slate-800 shadow-lg rounded box ">
+                <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Information</h1>
+                <p class="text-2xl font-semibold text-left py-3 text-gray-200 bg-slate-700 px-10">
+                    Title<br>
+                    By, Artist Name
+                </p>
+                <ul class="text-left text-gray-400 font-thin py-2 px-10">
+                    <li>Artist Type</li>
+                    <li>Genre</li>
+                    <li>Year</li>
+                    <li>Duration</li>
+                </ul>
+            </div>
+            <div class="right-side bg-slate-500">
+                CHART
+            </div>
+        </div>
+        <div class="footer">
+            Copyright
+        </div>
+    </section>
+    <script src="./starting-files/assign2.js"></script>
 </body>
 </html>

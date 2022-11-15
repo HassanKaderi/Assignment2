@@ -5,20 +5,22 @@
 #songSearchBars {
 
     margin: 1rem;
-    outline: 8px ridge goldenrod;
+    outline: 6px ridge rgb(75, 82, 121);
     border-radius: 2rem;
     text-align: center;
     color: black;
+    background-color: rgba(255, 255, 255, 0.151);
 }
 
 #smallerSearch {
 
     margin: 1rem;
-    outline: 8px ridge goldenrod;
+    outline: 4px ridge rgb(75, 82, 121);
     border-radius: 2rem;
     text-align: center;
     color: black;
     width: 6em;
+    background-color: rgba(255, 255, 255, 0.151);
 }
 
 

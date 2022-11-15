@@ -21,8 +21,8 @@
             <h1 class="header text-4xl">Header</h1>
             <button>Credits</button>
         </div>
-        <div class="flex justify-around w-auto">
-        <div class="left-side bg-slate-500">
+        <div class="flex justify-around bg-slate-900 w-auto p-8">
+        <div class="left-side bg-slate-800 shadow-lg rounded box ">
             <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Search</h1>
 
             <input type="radio"><input id=songSearchBars type="text" placeholder="Title"><br>
@@ -58,34 +58,24 @@
                     <th>Popularity</th>
                 </tr>
                 <tr>
-                    <td>
-                        Test
-                    </td>
-                    <td>
-                        Test
-                    </td>
-                    <td>
-                        Test
-                    </td>
-                    <td>
-                        Test
-                    </td>
-                    <td>
-                        Test
-                    </td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
                 </tr>
             </table>
         </div>
 
         </div>
     </section>
-    <section class="text-white text-center">
+    <section id="firstView" class="text-white text-center">
         <div>
             <h1 class="header text-4xl">Header</h1>
             <button onClick="hideView()">Single Song Info</button>
             <button>Credits</button>
         </div>
-        <div id=firstView class="main flex justify-around bg-slate-900 w-auto p-8">
+        <div  class="main flex justify-around bg-slate-900 w-auto p-8">
             <div class="left-side bg-slate-800 shadow-lg rounded box ">
                 <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Information</h1>
                 <h1 class="text-2xl font-semibold text-left pt-3 text-gray-200 bg-slate-700 px-10" id="cardTitle">Title
@@ -99,13 +89,41 @@
                     <li id="cardDuration">Duration</li>
                 </ul>
             </div>
-            <div class="middle-side bg-slate-500">
-                CHART
+            <div class="middle-side">
+                <canvas id="myChart" ></canvas>
             </div>
         </div>
     </section>
     <script src="./starting-files/assign2.js"></script>
     <script src="singleSongView.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('myChart');
+      
+        new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Liveness', 'Valence'],
+            datasets: [{
+              label: 'Song Details',
+              data: data,
+              borderWidth: 3,
+              
+            }]
+
+          },
+            options: {
+            elements: {
+            line: {
+                borderWidth: 3
+                }
+            }
+          }
+        });
+    </script>
+      
+
 </body>
 
 </html>

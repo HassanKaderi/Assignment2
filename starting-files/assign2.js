@@ -5,6 +5,8 @@ const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const song = JSON.parse(sampleSongs); // Have all the songs
 
+let data = [2,2,2,2,2,2];
+
 function SongDetails(songGiven){
    this.songID = songGiven.song_id;
    this.songTitle = songGiven.title; // Grabs Song Title
@@ -38,6 +40,7 @@ function editDom(songOBJ){
    yearCard.textContent = "Song NAAAMAE";
    durrationCard.textContent = "Hassan";
 
+   data = [1,2,3,4,5,6];
 }
 
 // let song1 = editDom(SongDetails(song[0]));

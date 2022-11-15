@@ -31,7 +31,7 @@ function editDom(songOBJ){
    const yearCard = document.querySelector("#cardYear");
    const durrationCard = document.querySelector("#cardDuration");
 
-   titleCard.textContent = songOBJ.returnSongTitle();
+   titleCard.textContent = "Mike";//songOBJ.returnSongTitle();
    artistCard.textContent = "Hassan";
    artistTypeCard.textContent = "Song NAAAMAE";
    genreCard.textContent = "Hassan";
@@ -40,7 +40,7 @@ function editDom(songOBJ){
 
 }
 
-let song1 = editDom(SongDetails(song[0]));
+// let song1 = editDom(SongDetails(song[0]));
 
 
 

@@ -19,10 +19,72 @@
     <section class="text-white text-center">
         <div>
             <h1 class="header text-4xl">Header</h1>
+            <button>Credits</button>
+        </div>
+        <div class="flex justify-around w-auto">
+        <div class="left-side bg-slate-500">
+            <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Search</h1>
+
+            <input type="radio"><input id=songSearchBars type="text" placeholder="Title"><br>
+            <input type="radio"><input id=songSearchBars type="text" placeholder="Artist"><br>
+            <input type="radio"><input id=songSearchBars type="text" placeholder="Genere"><br>
+
+            <hr class="style-four">
+
+            <input type="radio"><label>Year</label><br>
+            <input id=smallerSearch type="number" placeholder="Less"><br>
+            <input id=smallerSearch type="number" placeholder="Greater">
+
+            <hr class="style-four">
+
+            <input type="radio"><label>Popularity</label><br>
+            <input id=smallerSearch type="number" placeholder="Less"><br>
+            <input id=smallerSearch type="number" placeholder="Greater">
+
+
+            <hr class="style-four">
+
+            <button>Clear</button> <button>Search</button>
+        </div>
+
+        <div>
+            <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Searched Results</h1>
+            <table class="justify-center">
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Year</th>
+                    <th>Genre</th>
+                    <th>Popularity</th>
+                </tr>
+                <tr>
+                    <td>
+                        Test
+                    </td>
+                    <td>
+                        Test
+                    </td>
+                    <td>
+                        Test
+                    </td>
+                    <td>
+                        Test
+                    </td>
+                    <td>
+                        Test
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        </div>
+    </section>
+    <section class="text-white text-center">
+        <div>
+            <h1 class="header text-4xl">Header</h1>
             <button onClick="hideView()">Single Song Info</button>
             <button>Credits</button>
         </div>
-
         <div id=firstView class="main flex justify-around bg-slate-900 w-auto p-8">
             <div class="left-side bg-slate-800 shadow-lg rounded box ">
                 <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Information</h1>
@@ -37,46 +99,9 @@
                     <li id="cardDuration">Duration</li>
                 </ul>
             </div>
-
             <div class="middle-side bg-slate-500">
                 CHART
             </div>
-
-            <div class="right-side bg-slate-500">
-                <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Search
-                </h1>
-
-                <input type="radio"><input id=songSearchBars type="text" placeholder="Title"><br>
-                <input type="radio"><input id=songSearchBars type="text" placeholder="Artist"><br>
-                <input type="radio"><input id=songSearchBars type="text" placeholder="Genere"><br>
-
-                <hr class="style-four">
-
-                <input type="radio"><label>Year</label><br>
-                <input id=smallerSearch type="number" placeholder="Less"><br>
-                <input id=smallerSearch type="number" placeholder="Greater">
-
-                <hr class="style-four">
-
-                <input type="radio"><label>Popularity</label><br>
-                <input id=smallerSearch type="number" placeholder="Less"><br>
-                <input id=smallerSearch type="number" placeholder="Greater">
-
-
-                <hr class="style-four">
-
-                <button>Clear</button> <button>Search</button>
-
-
-
-            </div>
-
-
-
-        </div>
-
-        <div class="footer">
-            Copyright
         </div>
     </section>
     <script src="./starting-files/assign2.js"></script>

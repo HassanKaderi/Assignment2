@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./tailwind/output.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="./starting-files/artists.json"></script>
     <script src="./starting-files/genres.json"></script>
     <script src="./starting-files/sample-songs.json"></script>
-    
+
+
 </head>
+
 <body class="bg-slate-800">
     <section class="text-white text-center">
         <div>
             <h1 class="header text-4xl">Header</h1>
-            <button>Close View</button>
+            <button onClick="hideView()">Single Song Info</button>
             <button>Credits</button>
         </div>
-        <div class="main flex justify-around bg-slate-900 w-auto p-8">
+
+        <div id=firstView class="main flex justify-around bg-slate-900 w-auto p-8">
             <div class="left-side bg-slate-800 shadow-lg rounded box ">
                 <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Information</h1>
-                <h1 class="text-2xl font-semibold text-left pt-3 text-gray-200 bg-slate-700 px-10" id="cardTitle">Title</h1>
-                <h1 class="text-2xl font-semibold text-left pb-3 text-gray-200 bg-slate-700 px-10" id="cardName">Artist Name</h1>
+                <h1 class="text-2xl font-semibold text-left pt-3 text-gray-200 bg-slate-700 px-10" id="cardTitle">Title
+                </h1>
+                <h1 class="text-2xl font-semibold text-left pb-3 text-gray-200 bg-slate-700 px-10" id="cardName">Artist
+                    Name</h1>
                 <ul class="text-left text-gray-400 font-thin py-3 px-10">
                     <li id="cardType">Artist Type</li>
                     <li id="cardGenre">Genre</li>
@@ -30,14 +37,50 @@
                     <li id="cardDuration">Duration</li>
                 </ul>
             </div>
-            <div class="right-side bg-slate-500">
+
+            <div class="middle-side bg-slate-500">
                 CHART
             </div>
+
+            <div class="right-side bg-slate-500">
+                <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Search
+                </h1>
+
+                <input type="radio"><input id=songSearchBars type="text" placeholder="Title"><br>
+                <input type="radio"><input id=songSearchBars type="text" placeholder="Artist"><br>
+                <input type="radio"><input id=songSearchBars type="text" placeholder="Genere"><br>
+
+                <hr class="style-four">
+
+                <input type="radio"><label>Year</label><br>
+                <input id=smallerSearch type="number" placeholder="Less"><br>
+                <input id=smallerSearch type="number" placeholder="Greater">
+
+                <hr class="style-four">
+
+                <input type="radio"><label>Popularity</label><br>
+                <input id=smallerSearch type="number" placeholder="Less"><br>
+                <input id=smallerSearch type="number" placeholder="Greater">
+
+
+                <hr class="style-four">
+
+                <button>Clear</button> <button>Search</button>
+
+
+
+            </div>
+
+
+
         </div>
+
         <div class="footer">
             Copyright
         </div>
     </section>
     <script src="./starting-files/assign2.js"></script>
+    <script src="singleSongView.js"></script>
 </body>
+
 </html>

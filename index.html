@@ -17,27 +17,28 @@
 
 <body class="bg-slate-800">
     <section class="text-white text-center">
-        <div>
-            <h1 class="header text-4xl">Header</h1>
+        <div class="pt-5">
+            <h1 class="header text-4xl">Song Browser</h1>
             <button>Credits</button>
         </div>
         <div class="flex justify-around bg-slate-900 w-auto p-8">
         <div class="left-side bg-slate-800 shadow-lg rounded box ">
-            <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Song Search</h1>
+            <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Song Search</h1>
+            <form action="">
 
-            <input type="radio"><input id=songSearchBars type="text" placeholder="Title"><br>
-            <input type="radio"><input id=songSearchBars type="text" placeholder="Artist"><br>
-            <input type="radio"><input id=songSearchBars type="text" placeholder="Genere"><br>
+            <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Title"><br>
+            <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Artist"><br>
+            <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Genere"><br>
 
             <hr class="style-four">
 
-            <input type="radio"><label>Year</label><br>
+            <input type="radio" name="filterType"><label>Year</label><br>
             <input id=smallerSearch type="number" placeholder="Less"><br>
             <input id=smallerSearch type="number" placeholder="Greater">
 
             <hr class="style-four">
 
-            <input type="radio"><label>Popularity</label><br>
+            <input type="radio" name="filterType"><label>Popularity</label><br>
             <input id=smallerSearch type="number" placeholder="Less"><br>
             <input id=smallerSearch type="number" placeholder="Greater">
 
@@ -45,11 +46,12 @@
             <hr class="style-four">
 
             <button>Clear</button> <button>Search</button>
+        </form>
         </div>
 
         <div>
             <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Searched Results</h1>
-            <table class="justify-center">
+            <table>
                 <tr>
                     <th>Title</th>
                     <th>Artist</th>
@@ -57,20 +59,15 @@
                     <th>Genre</th>
                     <th>Popularity</th>
                 </tr>
-                <tr>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                </tr>
+            </table>
+            <table class="justify-center" id="searchResults">
             </table>
         </div>
 
         </div>
     </section>
-    <section id="firstView" class="text-white text-center">
-        <div>
+    <section id="firstView" class="text-white text-center"  style="display: none;">
+        <div class="py-5">
             <h1 class="header text-4xl">Header</h1>
             <button onClick="hideView()">Single Song Info</button>
             <button>Credits</button>

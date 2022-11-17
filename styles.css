@@ -58,3 +58,18 @@ button {
 
 }
 
+#searchResults{
+    display: block;
+    overflow-y: scroll;
+    height: 50vh;
+    min-width: 75em;
+}
+
+th{
+    font-size: 2em;
+    width: 20vw;
+}
+
+td{
+    width: 20vw;
+}

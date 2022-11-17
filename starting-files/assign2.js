@@ -5,27 +5,9 @@ const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const song = JSON.parse(sampleSongs); // Have all the songs
 
-let data = [2,2,2,2,2,2];
+let data = [];
 
-function SongDetails(songGiven){
-   this.songID = songGiven.song_id;
-   this.songTitle = songGiven.title; // Grabs Song Title
-   let theArtist = artist.find(artistLookin => artistLookin.id == songGiven.artist.id); //Uses the find method of an array to find the exact item
-   this.artistOfSong = theArtist.name; // Grabs the artist of the song
-   this.artistType = theArtist.type;
-
-   this.songGenre = songGiven.genre.name;
-   this.year = songGiven.year;
-   let time = songGiven.details.duration;
-   this.duration = Math.floor(time / 60) + ':' + ('0' + Math.floor(time % 60)).slice(-2); // This algo can be found at https://www.folkstalk.com/2022/09/javascript-format-seconds-into-minutes-and-second-with-code-examples.html
-}
-
-function findSong(songID){
-   // This code searches the list for a song that matches with the ID given.
-   return song.find(songGiven => songGiven.song_id == songID);
-}
-
-function editDom(songOBJ){
+function SearchOption(SongOBJ){
    const titleCard = document.querySelector("#cardTitle");
    const artistCard = document.querySelector("#cardName");
    const artistTypeCard = document.querySelector("#cardType");
@@ -33,17 +15,63 @@ function editDom(songOBJ){
    const yearCard = document.querySelector("#cardYear");
    const durrationCard = document.querySelector("#cardDuration");
 
-   titleCard.textContent = "Mike";//songOBJ.returnSongTitle();
-   artistCard.textContent = "Hassan";
-   artistTypeCard.textContent = "Song NAAAMAE";
+   titleCard.textContent = SongOBJ.title;//songOBJ.returnSongTitle();
+   artistCard.textContent = SongOBJ.artist.name;
+   artistTypeCard.textContent = SongOBJ.genre.name;
    genreCard.textContent = "Hassan";
-   yearCard.textContent = "Song NAAAMAE";
-   durrationCard.textContent = "Hassan";
+   yearCard.textContent = SongOBJ.year;
+   durrationCard.textContent = Math.floor(SongOBJ.details.duration / 60) + ':' + ('0' + Math.floor(SongOBJ.details.duration % 60)).slice(-2);
 
-   data = [1,2,3,4,5,6];
+   data = [
+      SongOBJ.analytics.danceability,
+      SongOBJ.analytics.energy,
+      SongOBJ.analytics.speechiness,
+      SongOBJ.analytics.acousticness,
+      SongOBJ.analytics.liveness,
+      SongOBJ.analytics.valence
+   ];
 }
 
-// let song1 = editDom(SongDetails(song[0]));
+function addSongToTable(songOBJ){
+   let parentNode = document.querySelector("#searchResults");
+   console.log(songOBJ);
+   let tr = document.createElement("tr");
+
+   let title = document.createElement("td");
+   title.textContent = songOBJ.title;
+   tr.appendChild(title);
+
+   let artist = document.createElement("td");
+   artist.textContent = songOBJ.artist.name;
+   tr.appendChild(artist);
+
+   let year = document.createElement("td");
+   year.textContent = songOBJ.year;
+   tr.appendChild(year);
+
+   let genre = document.createElement("td");
+   genre.textContent = songOBJ.genre.name;
+   tr.appendChild(genre);
+
+   let pop = document.createElement("td");
+   pop.textContent = songOBJ.details.popularity;
+   tr.appendChild(pop);
+   
+   parentNode.appendChild(tr);
+}
+
+function findSong(songID){
+   // This code searches the list for a song that matches with the ID given.
+   return song.find(songGiven => songGiven.song_id == songID);
+}
+
+window.addEventListener('DOMContentLoaded', (event)=> {
+   //The reason we made an on content load event listener is so that the content loads before we output anything
+   for(aSong of song){
+      addSongToTable(aSong);
+   }
+});
+
 
 
 

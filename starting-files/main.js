@@ -5,8 +5,31 @@ const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
 
+const ctx = document.getElementById('mycanvas');
 
 let data = [];
+
+const myChart =
+   new Chart(ctx, {
+   type: 'radar',
+   data: {
+         labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Liveness', 'Valence'],
+   datasets: [{
+      label: 'Song Details',
+      data: data,
+      borderWidth: 3,       
+      }]
+   },
+            options: {
+            elements: {
+            line: {
+                borderWidth: 3
+                }
+            }
+          }
+});
+
+
 
 function SearchOption(SongOBJ){
    const titleCard = document.querySelector("#cardTitle");
@@ -32,7 +55,7 @@ function SearchOption(SongOBJ){
       SongOBJ.analytics.valence
    ];
 
-   // chart.update();
+   myChart.update();
 }
 
 function addSongToTable(songOBJ){
@@ -63,6 +86,12 @@ function addSongToTable(songOBJ){
    let pop = document.createElement("td");
    pop.textContent = songOBJ.details.popularity;
    tr.appendChild(pop);
+
+   let add = document.createElement("td");
+   let but = document.createElement('button');
+   but.textContent = 'Add To Playlist'
+   add.appendChild(but);
+   tr.appendChild(add);
    
    parentNode.appendChild(tr);
 }
@@ -72,10 +101,42 @@ function findSong(songID){
    return songs.find(songGiven => songGiven.song_id == songID);
 }
 
+function searchTitle(title){
+   let matchingTitle = songs.filter(searchedSong => searchedSong.title.toLowerCase() == title.toLowerCase());
+   for(let s of matchingTitle){
+      console.log(matchingTitle);
+   }
+}
+
+function searchArtist(){
+
+}
+
+function searcheGenre(){
+
+}
+
+function searchYear(year, sign){
+   let x = document.querySelector('#searchResults');
+   x.innerHTML ='';
+   let search;
+   if(sign == '>')
+      search = songs.filter(songFound => songFound.year > year);
+   else
+      search = songs.filter(songFound => songFound.year < year);
+   for(s of search){
+      addSongToTable(s);
+   }
+
+}
+
+function searchPop(){
+
+}
+
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
    document.querySelector('#secondView').style.display = 'none';
-   
 
    const jsonData = localStorage.getItem('songs');
 

@@ -74,7 +74,11 @@ td{
     height: 10vh;
 }
 
-td:hover {
+tr:nth-child(2n){
+    background-color: rgba(255, 255, 255, 0.007);
+}
+
+#searchResults>tr:hover {
     transition: .2s;
     font-size: larger;
     background-color: rgba(255, 255, 255, 0.031);

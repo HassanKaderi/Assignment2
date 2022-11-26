@@ -58,6 +58,7 @@
                     <th id="SortYear" data-sort="0">Year</th>
                     <th id="SortGenre">Genre</th>
                     <th id="SortPopularity">Popularity</th>
+                    <th id="AddToPlayList">★</th>
                 </tr>
             </table>
             <table class="justify-center" id="searchResults">
@@ -87,7 +88,7 @@
                 </ul>
             </div>
             <div class="middle-side">
-                <canvas id="myChart" ></canvas>
+                <canvas id="mycanvas" ></canvas>
             </div>
         </div>
     </section>
@@ -97,28 +98,11 @@
     <script src="./starting-files/main.js"></script>
 
     <script>
-        const ctx = document.getElementById('myChart');
+        
+        
       
-        new Chart(ctx, {
-          type: 'radar',
-          data: {
-            labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Liveness', 'Valence'],
-            datasets: [{
-              label: 'Song Details',
-              data: data,
-              borderWidth: 3,
-              
-            }]
+        
 
-          },
-            options: {
-            elements: {
-            line: {
-                borderWidth: 3
-                }
-            }
-          }
-        });
     </script>
       
 

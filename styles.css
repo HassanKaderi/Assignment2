@@ -8,7 +8,7 @@
     outline: 6px ridge rgb(75, 82, 121);
     border-radius: 2rem;
     text-align: center;
-    color: black;
+    color: rgb(255, 255, 255);
     background-color: rgba(255, 255, 255, 0.151);
 }
 
@@ -36,7 +36,6 @@ hr.style-four {
 /* button from https://copy-paste-css.com/ */
 
 button {
-
     margin: 1em;
     border: 0;
     outline: 0;
@@ -51,17 +50,17 @@ button {
     display: inline-block;
     min-height: 28px;
     transition: background-color .24s,box-shadow .24s;
-    :hover {
-        box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
-    }
+}
 
-
+button:hover {
+    transition: .2s;
+    box-shadow: rgba(110, 109, 109, 0.889) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }
 
 #searchResults{
     display: block;
     overflow-y: scroll;
-    height: 50vh;
+    height: 60vh;
     min-width: 75em;
 }
 
@@ -72,4 +71,12 @@ th{
 
 td{
     width: 20vw;
+    height: 10vh;
+}
+
+td:hover {
+    transition: .2s;
+    font-size: larger;
+    background-color: rgba(255, 255, 255, 0.031);
+    box-shadow: rgba(110, 109, 109, 0.889) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
 }

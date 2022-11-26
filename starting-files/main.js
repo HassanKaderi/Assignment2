@@ -3,7 +3,8 @@ const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.p
 
 const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
-const song = JSON.parse(sampleSongs); // Have all the songs
+const songs = JSON.parse(localStorage.getItem('songs'));
+
 
 let data = [];
 
@@ -17,8 +18,8 @@ function SearchOption(SongOBJ){
 
    titleCard.textContent = SongOBJ.title;//songOBJ.returnSongTitle();
    artistCard.textContent = SongOBJ.artist.name;
-   artistTypeCard.textContent = SongOBJ.genre.name;
-   genreCard.textContent = "Hassan";
+   artistTypeCard.textContent = SongOBJ.genre.name.toUpperCase();
+   genreCard.textContent = 'test'.toUpperCase();
    yearCard.textContent = SongOBJ.year;
    durrationCard.textContent = Math.floor(SongOBJ.details.duration / 60) + ':' + ('0' + Math.floor(SongOBJ.details.duration % 60)).slice(-2);
 
@@ -30,15 +31,21 @@ function SearchOption(SongOBJ){
       SongOBJ.analytics.liveness,
       SongOBJ.analytics.valence
    ];
+
+   // chart.update();
 }
 
 function addSongToTable(songOBJ){
    let parentNode = document.querySelector("#searchResults");
-   console.log(songOBJ);
    let tr = document.createElement("tr");
 
    let title = document.createElement("td");
    title.textContent = songOBJ.title;
+   title.addEventListener('click', function (e){
+      SearchOption(songOBJ);
+      document.querySelector('#firstView').style.display = 'none';
+      document.querySelector('#secondView').style.display = 'block';
+   })
    tr.appendChild(title);
 
    let artist = document.createElement("td");
@@ -50,7 +57,7 @@ function addSongToTable(songOBJ){
    tr.appendChild(year);
 
    let genre = document.createElement("td");
-   genre.textContent = songOBJ.genre.name;
+   genre.textContent = songOBJ.genre.name.toUpperCase();
    tr.appendChild(genre);
 
    let pop = document.createElement("td");
@@ -62,16 +69,32 @@ function addSongToTable(songOBJ){
 
 function findSong(songID){
    // This code searches the list for a song that matches with the ID given.
-   return song.find(songGiven => songGiven.song_id == songID);
+   return songs.find(songGiven => songGiven.song_id == songID);
 }
 
-window.addEventListener('DOMContentLoaded', (event)=> {
+window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
-   for(aSong of song){
-      addSongToTable(aSong);
-   }
-});
+   document.querySelector('#secondView').style.display = 'none';
+   
 
+   const jsonData = localStorage.getItem('songs');
+
+   if(!jsonData){
+      fetch(api).then((response) => response.json())
+      .then((data) => {
+         localStorage.setItem('songs', JSON.stringify(data));
+         for(aSong of data){
+            addSongToTable(aSong);
+         }
+      });
+   } else {
+      const songs = JSON.parse(jsonData);
+      for(aSong of songs){
+         addSongToTable(aSong);
+      }
+   }
+
+});
 
 
 

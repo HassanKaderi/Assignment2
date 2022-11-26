@@ -15,8 +15,8 @@
 
 </head>
 
-<body class="bg-slate-800">
-    <section class="text-white text-center">
+<body  class="bg-slate-800">
+    <section id="firstView" class="text-white text-center">
         <div class="pt-5">
             <h1 class="header text-4xl">Song Browser</h1>
             <button>Credits</button>
@@ -53,11 +53,11 @@
             <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Searched Results</h1>
             <table>
                 <tr>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Year</th>
-                    <th>Genre</th>
-                    <th>Popularity</th>
+                    <th id="SortTitle">Title</th>
+                    <th id="SortArtist">Artist</th>
+                    <th id="SortYear" data-sort="0">Year</th>
+                    <th id="SortGenre">Genre</th>
+                    <th id="SortPopularity">Popularity</th>
                 </tr>
             </table>
             <table class="justify-center" id="searchResults">
@@ -66,7 +66,7 @@
 
         </div>
     </section>
-    <section id="firstView" class="text-white text-center"  style="display: none;">
+    <section id="secondView" class="text-white text-center">
         <div class="py-5">
             <h1 class="header text-4xl">Header</h1>
             <button onClick="hideView()">Single Song Info</button>
@@ -91,9 +91,10 @@
             </div>
         </div>
     </section>
-    <script src="./starting-files/assign2.js"></script>
+    
     <script src="singleSongView.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./starting-files/main.js"></script>
 
     <script>
         const ctx = document.getElementById('myChart');

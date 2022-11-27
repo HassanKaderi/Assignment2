@@ -18,17 +18,18 @@
 <body  class="bg-slate-800">
     <section id="firstView" class="text-white text-center">
         <div class="pt-5">
-            <h1 class="header text-4xl">Song Browser</h1>
+            <h1 class="header text-4xl font-bold"><u>Song Browser</u></h1>
+            <button id="playlistView">My Playlist</button>
             <button>Credits</button>
         </div>
         <div class="flex justify-around bg-slate-900 w-auto p-8">
         <div class="left-side bg-slate-800 shadow-lg rounded box ">
             <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Song Search</h1>
-            <form action="">
+            <form action="" id="searchForm">
 
-            <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Title"><br>
-            <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Artist"><br>
-            <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Genere"><br>
+            <input type="radio" name="filterType" data-search='titleBox'><input id=songSearchBars type="text" placeholder="Title"><br>
+            <input type="radio" name="filterType" data-search='artistBox'><input id=songSearchBars type="text" placeholder="Artist"><br>
+            <input type="radio" name="filterType" data-search='genreBox'><input id=songSearchBars type="text" placeholder="Genre"><br>
 
             <hr class="style-four">
 
@@ -45,12 +46,13 @@
 
             <hr class="style-four">
 
-            <button>Clear</button> <button>Search</button>
+            <button type="reset" class="text-gray-300" id="clearFilters">Clear</button> <button type="button" class="text-gray-300" id="searchFilters">Search</button>
+
         </form>
         </div>
 
         <div>
-            <h1 class="text-4xl font-bold py-2 text-gray-200 text-left px-10">Searched Results</h1>
+            <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Searched Results</h1>
             <table>
                 <tr>
                     <th id="SortTitle">Title</th>
@@ -64,11 +66,10 @@
             <table class="justify-center" id="searchResults">
             </table>
         </div>
-
         </div>
     </section>
-    <section id="secondView" class="text-white text-center">
-        <div class="py-5">
+    <section id="secondView" class="text-white text-left">
+        <div class="py-5 text-center">
             <h1 class="header text-4xl">Header</h1>
             <button onClick="hideView()">Single Song Info</button>
             <button>Credits</button>
@@ -80,7 +81,7 @@
                 </h1>
                 <h1 class="text-2xl font-semibold text-left pb-3 text-gray-200 bg-slate-700 px-10" id="cardName">Artist
                     Name</h1>
-                <ul class="text-center text-gray-400 font-thin py-3 px-10">
+                <ul class="text-left text-gray-400 font-thin py-3 px-10">
                     <li id="cardType">Artist Type</li>
                     <li id="cardGenre">Genre</li>
                     <li id="cardYear">Year</li>
@@ -92,19 +93,62 @@
             </div>
         </div>
     </section>
+
+    <section id="thirdView" class="text-white text-center">
+        <div class="pt-5">
+            <h1 class="header text-4xl font-bold"><u>My Playlist</u></h1>
+            <button id="songView">Song Browser</button>
+            <button>Credits</button>
+        </div>
+        <div class="flex justify-around bg-slate-900 w-auto p-8">
+        <div class="left-side bg-slate-800 shadow-lg rounded box ">
+            <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Song Search</h1>
+            <form action="">
+
+                <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Title"><br>
+                <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Artist"><br>
+                <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Genere"><br>
+    
+                <hr class="style-four">
+    
+                <input type="radio" name="filterType"><label>Year</label><br>
+                <input id=smallerSearch type="number" placeholder="Less"><br>
+                <input id=smallerSearch type="number" placeholder="Greater">
+    
+                <hr class="style-four">
+    
+                <input type="radio" name="filterType"><label>Popularity</label><br>
+                <input id=smallerSearch type="number" placeholder="Less"><br>
+                <input id=smallerSearch type="number" placeholder="Greater">
+    
+    
+                <hr class="style-four">
+    
+                <button type="reset" class="text-gray-300" id="clearFilters">Clear</button> <button type="submit" class="text-gray-300">Search</button>
+            </form>
+        </div>
+
+        <div>
+            <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Saved Results</h1>
+            <table>
+                <tr>
+                    <th id="SortTitle">Title</th>
+                    <th id="SortArtist">Artist</th>
+                    <th id="SortYear" data-sort="0">Year</th>
+                    <th id="SortGenre">Genre</th>
+                    <th id="SortPopularity">Popularity</th>
+                    <th id="RemoveFromPlaylist">★</th>
+                </tr>
+            </table>
+            <table class="justify-center" id="playlistResults">
+            </table>
+        </div>
+        </div>
+    </section>
     
     <script src="singleSongView.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./starting-files/main.js"></script>
-
-    <script>
-        
-        
-      
-        
-
-    </script>
-      
+    <script src="./starting-files/main.js"></script>   
 
 </body>
 

@@ -30,8 +30,6 @@ const myChart =
           }
 });
 
-
-
 function SearchOption(SongOBJ){
    const titleCard = document.querySelector("#cardTitle");
    const artistCard = document.querySelector("#cardName");
@@ -144,9 +142,33 @@ function searchPop(rating, sign){
 
 }
 
+function hideView () {
+   let x = document.getElementById("secondView"); 
+
+   if (x.style.display === "none") {
+       x.style.display = "block";
+       document.querySelector('#firstView').style.display = 'none';
+
+     } else {
+       x.style.display = "none";
+       document.querySelector('#firstView').style.display = 'block';
+     }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
    document.querySelector('#secondView').style.display = 'none';
+   document.querySelector('#thirdView').style.display = 'none';
+
+   document.querySelector('#playlistView').addEventListener('click', function(){
+      document.querySelector('#thirdView').style.display = 'block';
+      document.querySelector('#firstView').style.display = 'none';
+   });
+
+   document.querySelector('#songView').addEventListener('click', function(){
+      document.querySelector('#firstView').style.display = 'block';
+      document.querySelector('#thirdView').style.display = 'none';
+   });
 
    const jsonData = localStorage.getItem('songs');
    const playlistData = localStorage.getItem('playlist');
@@ -168,12 +190,30 @@ window.addEventListener('DOMContentLoaded', () => {
          addSongToTable(aSong);
       }
 
-      for(aSong of playlist){
-         console.log(aSong);
-      }
+      // for(aSong of playlist){
+      //    console.log(aSong);
+      // }
    }
 
+   document.querySelector('#clearFilters').addEventListener('click', function (e){
+      let x = document.querySelector('#searchResults');
+      x.innerHTML ='';
+   });
+
+   document.querySelector('#searchFilters').addEventListener('click', function(){
+      let radioButtons = document.querySelectorAll('input[name="filterType"]');
+      for(let r of radioButtons){
+         if(r.checked){
+            console.log(r.dataset.search);
+         }
+      }
+   });
+
+
 });
+
+
+
 
 
 

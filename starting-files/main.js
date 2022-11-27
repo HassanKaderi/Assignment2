@@ -4,6 +4,7 @@ const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.p
 const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
+const playlist = JSON.parse(localStorage.getItem('playlist'));
 
 const ctx = document.getElementById('mycanvas');
 
@@ -127,10 +128,19 @@ function searchYear(year, sign){
    for(s of search){
       addSongToTable(s);
    }
-
 }
 
-function searchPop(){
+function searchPop(rating, sign){
+   let x = document.querySelector('#searchResults');
+   x.innerHTML ='';
+   let search;
+   if(sign == '>')
+      search = songs.filter(songFound => songFound.details.popularity > rating);
+   else
+      search = songs.filter(songFound => songFound.details.popularity < rating);
+   for(s of search){
+      addSongToTable(s);
+   }
 
 }
 
@@ -139,6 +149,7 @@ window.addEventListener('DOMContentLoaded', () => {
    document.querySelector('#secondView').style.display = 'none';
 
    const jsonData = localStorage.getItem('songs');
+   const playlistData = localStorage.getItem('playlist');
 
    if(!jsonData){
       fetch(api).then((response) => response.json())
@@ -149,9 +160,16 @@ window.addEventListener('DOMContentLoaded', () => {
          }
       });
    } else {
+
       const songs = JSON.parse(jsonData);
+      const playlist = JSON.parse(playlistData);
+
       for(aSong of songs){
          addSongToTable(aSong);
+      }
+
+      for(aSong of playlist){
+         console.log(aSong);
       }
    }
 

@@ -157,13 +157,13 @@ function hideView () {
 
 function checkRadio(radio, value){
    switch(radio){
-      case 'titleBox':
+      case 'Title':
          console.log('looking for a Title! With this value: ' + value);
          break;
-      case 'genreBox':
+      case 'Genre':
          console.log('looking for a Genre! With this value: ' + value);
          break;
-      case 'artistBox':
+      case 'Artist':
          console.log('looking for a Artist! With this value: ' + value);
          break;
       default:
@@ -220,7 +220,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let radioButtons = document.querySelectorAll('input[name="filterType"]');
       for(let r of radioButtons){
          if(r.checked){
-            checkRadio(r.dataset.search, document.querySelectorAll(`[data-search='${r.dataset.search}']`).value);
+            checkRadio(r.dataset.search, document.querySelectorAll('.title').value);
          }
       }
    });

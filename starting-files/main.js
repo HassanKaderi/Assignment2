@@ -155,6 +155,22 @@ function hideView () {
      }
 }
 
+function checkRadio(radio, value){
+   switch(radio){
+      case 'titleBox':
+         console.log('looking for a Title! With this value: ' + value);
+         break;
+      case 'genreBox':
+         console.log('looking for a Genre! With this value: ' + value);
+         break;
+      case 'artistBox':
+         console.log('looking for a Artist! With this value: ' + value);
+         break;
+      default:
+         break;
+   }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
    document.querySelector('#secondView').style.display = 'none';
@@ -204,7 +220,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let radioButtons = document.querySelectorAll('input[name="filterType"]');
       for(let r of radioButtons){
          if(r.checked){
-            console.log(r.dataset.search);
+            checkRadio(r.dataset.search, document.querySelectorAll(`[data-search='${r.dataset.search}']`).value);
          }
       }
    });

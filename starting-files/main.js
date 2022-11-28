@@ -57,8 +57,8 @@ function SearchOption(SongOBJ){
    myChart.update();
 }
 
-function addSongToTable(songOBJ){
-   let parentNode = document.querySelector("#searchResults");
+function addSongToTable(songOBJ, parent){
+   let parentNode = document.querySelector(parent);
    let tr = document.createElement("tr");
 
    let title = document.createElement("td");
@@ -88,7 +88,15 @@ function addSongToTable(songOBJ){
 
    let add = document.createElement("td");
    let but = document.createElement('button');
-   but.textContent = 'Add To Playlist'
+   but.setAttribute('data-songid', songOBJ.song_id);
+   if(parent == '#searchResults'){
+      but.textContent = 'Add To Playlist';
+      but.addEventListener('click', function(e){
+         addToPlaylist(findSong(e.target.dataset.songid));
+      });
+   } else {
+      but.textContent = 'Remove From Playlist'
+   }
    add.appendChild(but);
    tr.appendChild(add);
    
@@ -171,6 +179,30 @@ function checkRadio(radio, value){
    }
 }
 
+function addToPlaylist(songObj){
+   let playlist = localStorage.getItem('playlist');
+   if(!playlist){ // If the playlist is empty we need to create a new array object
+      let arr = [];
+      arr = [songObj];
+      localStorage.setItem('playlist', JSON.stringify(arr));
+      addSongToTable(songObj, '#playlistResults');
+   } else { // now that the playlist is not empty we hav to check for duplicates so we do not accidentally add em.
+      let x = JSON.parse(playlist);
+      if(!x.includes(x.find(song => song.song_id == songObj.song_id))){
+         x.push(songObj);
+         console.log(x)
+         localStorage.setItem('playlist', JSON.stringify(x));
+         addSongToTable(songObj, '#playlistResults');
+      } else {
+         alert("This song is already in your playlist!");
+      }
+   }
+}
+
+function removeFromPlaylist(songObj){
+
+}
+
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
    document.querySelector('#secondView').style.display = 'none';
@@ -187,25 +219,33 @@ window.addEventListener('DOMContentLoaded', () => {
    });
 
    const jsonData = localStorage.getItem('songs');
-   const playlistData = localStorage.getItem('playlist');
+   const playlist = JSON.parse(localStorage.getItem('playlist'));
 
    if(!jsonData){
       fetch(api).then((response) => response.json())
       .then((data) => {
          localStorage.setItem('songs', JSON.stringify(data));
          for(aSong of data){
-            addSongToTable(aSong);
+            addSongToTable(aSong, '#searchResults');
          }
       });
    } else {
 
       const songs = JSON.parse(jsonData);
-      const playlist = JSON.parse(playlistData);
+      
 
       for(aSong of songs){
-         addSongToTable(aSong);
+         addSongToTable(aSong, '#searchResults');
       }
 
+      if(playlist){
+         for(song of playlist){
+               addSongToTable(song, '#playlistResults');
+            }
+      }
+      // 
+
+   
       // for(aSong of playlist){
       //    console.log(aSong);
       // }

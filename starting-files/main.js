@@ -200,7 +200,9 @@ function addToPlaylist(songObj){
 }
 
 function removeFromPlaylist(songObj){
-
+   let playlist = JSON.parse(localStorage.getItem('playlist'));
+   playlist.splice(playlist.indexOf(songObj), 1);
+   
 }
 
 window.addEventListener('DOMContentLoaded', () => {

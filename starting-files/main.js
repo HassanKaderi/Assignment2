@@ -60,12 +60,14 @@ function SearchOption(SongOBJ){
 function addSongToTable(songOBJ, parent){
    let parentNode = document.querySelector(parent);
    let tr = document.createElement("tr");
+   tr.setAttribute('dataset', songOBJ.song_id);
 
    let title = document.createElement("td");
    title.textContent = songOBJ.title;
    title.addEventListener('click', function (e){
       SearchOption(songOBJ);
       document.querySelector('#firstView').style.display = 'none';
+      document.querySelector('#thirdView').style.display = 'none';
       document.querySelector('#secondView').style.display = 'block';
    })
    tr.appendChild(title);
@@ -96,6 +98,9 @@ function addSongToTable(songOBJ, parent){
       });
    } else {
       but.textContent = 'Remove From Playlist'
+      but.addEventListener('click', function(e){
+         removeFromPlaylist(findSong(e.target.dataset.songid));
+      });
    }
    add.appendChild(but);
    tr.appendChild(add);
@@ -201,8 +206,14 @@ function addToPlaylist(songObj){
 
 function removeFromPlaylist(songObj){
    let playlist = JSON.parse(localStorage.getItem('playlist'));
-   playlist.splice(playlist.indexOf(songObj), 1);
-   
+   if(playlist.includes(playlist.find(song => song.song_id == songObj.song_id))){
+      console.log('Removing song found at: ' + playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)));
+      playlist.splice(playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)), 1)
+      localStorage.setItem('playlist', JSON.stringify(playlist));
+      document.querySelector(`[dataset="${songObj.song_id}"]`).remove();
+   } else {
+      console.log('Song not found');
+   }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -232,32 +243,23 @@ window.addEventListener('DOMContentLoaded', () => {
          }
       });
    } else {
-
       const songs = JSON.parse(jsonData);
-      
-
       for(aSong of songs){
          addSongToTable(aSong, '#searchResults');
       }
-
-      if(playlist){
-         for(song of playlist){
-               addSongToTable(song, '#playlistResults');
-            }
-      }
-      // 
-
-   
-      // for(aSong of playlist){
-      //    console.log(aSong);
-      // }
    }
-
+   if(!playlist){
+      let arr = [];
+      localStorage.setItem('playlist', JSON.stringify(arr));
+   } else {
+      for(song of playlist){
+         addSongToTable(song, '#playlistResults');
+      }
+   }
    document.querySelector('#clearFilters').addEventListener('click', function (e){
       let x = document.querySelector('#searchResults');
       x.innerHTML ='';
    });
-
    document.querySelector('#searchFilters').addEventListener('click', function(){
       let radioButtons = document.querySelectorAll('input[name="filterType"]');
       for(let r of radioButtons){
@@ -266,8 +268,6 @@ window.addEventListener('DOMContentLoaded', () => {
          }
       }
    });
-
-
 });
 
 

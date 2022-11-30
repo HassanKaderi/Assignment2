@@ -6,29 +6,9 @@ const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
 const playlist = JSON.parse(localStorage.getItem('playlist'));
 
-const ctx = document.getElementById('mycanvas');
+
 
 let data = [];
-
-const myChart =
-   new Chart(ctx, {
-   type: 'radar',
-   data: {
-         labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Liveness', 'Valence'],
-   datasets: [{
-      label: 'Song Details',
-      data: data,
-      borderWidth: 3,       
-      }]
-   },
-            options: {
-            elements: {
-            line: {
-                borderWidth: 3
-                }
-            }
-          }
-});
 
 function SearchOption(SongOBJ){
    const titleCard = document.querySelector("#cardTitle");
@@ -54,6 +34,27 @@ function SearchOption(SongOBJ){
       SongOBJ.analytics.valence
    ];
 
+   const ctx = document.getElementById('mycanvas');
+
+   const myChart =
+   new Chart(ctx, {
+   type: 'radar',
+   data: {
+         labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Liveness', 'Valence'],
+   datasets: [{
+      label: 'Song Details',
+      data: data,
+      borderWidth: 3,       
+      }]
+   },
+            options: {
+            elements: {
+            line: {
+                borderWidth: 3
+                }
+            }
+          }
+});
    myChart.update();
 }
 
@@ -168,20 +169,24 @@ function hideView () {
      }
 }
 
-function checkRadio(radio, value){
-   switch(radio){
-      case 'Title':
+function checkSearchFilters(option, value){
+   if(value != ''){
+   switch(option){
+      case 1:
          console.log('looking for a Title! With this value: ' + value);
          break;
-      case 'Genre':
+      case 2:
          console.log('looking for a Genre! With this value: ' + value);
          break;
-      case 'Artist':
+      case 3:
          console.log('looking for a Artist! With this value: ' + value);
          break;
       default:
          break;
    }
+} else {
+   alert('Please Add a value...')
+}
 }
 
 function addToPlaylist(songObj){
@@ -210,7 +215,7 @@ function removeFromPlaylist(songObj){
       console.log('Removing song found at: ' + playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)));
       playlist.splice(playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)), 1)
       localStorage.setItem('playlist', JSON.stringify(playlist));
-      document.querySelector(`[dataset="${songObj.song_id}"]`).remove();
+      document.querySelector(`#playlistResults, [dataset="${songObj.song_id}"]`).remove();
    } else {
       console.log('Song not found');
    }
@@ -260,14 +265,31 @@ window.addEventListener('DOMContentLoaded', () => {
       let x = document.querySelector('#searchResults');
       x.innerHTML ='';
    });
+
+   // Adding the event listner to when the search button is clicked for the searching
    document.querySelector('#searchFilters').addEventListener('click', function(){
-      let radioButtons = document.querySelectorAll('input[name="filterType"]');
-      for(let r of radioButtons){
-         if(r.checked){
-            checkRadio(r.dataset.search, document.querySelectorAll('.title').value);
+      let formOneValue = document.querySelector('#browseFilterOne');
+      let formTwoValue = document.querySelector('#browseFilterTwo');
+
+      let textBoxOne = document.querySelector('#browseFilterOneText').value;
+
+      if(formOneValue.selectedIndex == 0 && formTwoValue.selectedIndex == 0){
+         alert("Please Select AN option!");
+      } else if((formOneValue.selectedIndex > 0 && formTwoValue.selectedIndex > 0)){
+         alert("Please Select only ONE option!");
+         formOneValue.selectedIndex = 0;
+         formTwoValue.selectedIndex = 0;
+      } else {
+         if(formOneValue.selectedIndex > 0){
+            // Filter either title genre or playlist
+            checkSearchFilters(formOneValue.selectedIndex, textBoxOne);
+         } else {
+            
          }
       }
    });
+
+
 });
 
 

@@ -27,22 +27,21 @@
             <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Song Search</h1>
             <form action="" id="searchForm">
 
-            <input type="radio" name="filterType" data-search='Title'><input id=songSearchBars type="text" placeholder="Title" class="title"><br>
-            <input type="radio" name="filterType" data-search='Artist'><input id=songSearchBars type="text" placeholder="Artist"><br>
-            <input type="radio" name="filterType" data-search='Genre'><input id=songSearchBars type="text" placeholder="Genre"><br>
+            <select name="Select Filter" id="browseFilterOne" class="bg-transparent">
+                <option value="0">None</option>
+                <option value="1" >Title</option>
+                <option value="2" >Artist</option>
+                <option value="3" >Genre</option>
+            </select>
+            <input class=songSearchBars id="browseFilterOneText" type="text" placeholder="Search"><br>
 
             <hr class="style-four">
-
-            <input type="radio" name="filterType"><label>Year</label><br>
-            <input id=smallerSearch type="number" placeholder="Less"><br>
-            <input id=smallerSearch type="number" placeholder="Greater">
-
-            <hr class="style-four">
-
-            <input type="radio" name="filterType"><label>Popularity</label><br>
-            <input id=smallerSearch type="number" placeholder="Less"><br>
-            <input id=smallerSearch type="number" placeholder="Greater">
-
+            <select name="Select Filter" id="browseFilterTwo" class="bg-transparent">
+                <option value="0">None</option>
+                <option value="1">Year</option>
+                <option value="2">Pop.</option>
+            </select>
+            <input class='smallerSearch' type="number" class="PopYearSearch" placeholder="" ><br>
 
             <hr class="style-four">
 

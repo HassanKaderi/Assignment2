@@ -513,6 +513,14 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.m-5 {
+  margin: 1.25rem;
+}
+
+.block {
+  display: block;
+}
+
 .flex {
   display: flex;
 }
@@ -741,4 +749,93 @@ tr:nth-child(2n){
 
 select option {
   background-color: rgb(60, 66, 87);
+}
+
+.popup{
+  background-color: rgba(231, 57, 80, 0.829);
+  padding: 20px;
+  transition: 0.4s all;
+  display: none;
+}
+
+/*SWITCH CSS TAKEN FROM : https://codepen.io/JiveDig/pen/jbdJXR*/
+
+.switch-field {
+  display: flex;
+  margin-bottom: 36px;
+  overflow: hidden;
+}
+
+.switch-field input {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  border: 0;
+  overflow: hidden;
+}
+
+.switch-field label {
+  background-color: #e4e4e411;
+  color: rgba(255, 255, 255, 0.616);
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  padding: 8px 16px;
+  margin-right: -1px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.1s ease-in-out;
+}
+
+.switch-field label:hover {
+  cursor: pointer;
+}
+
+.switch-field input:checked + label{
+  background-color: rgb(75, 82, 121);
+  box-shadow: none;
+}
+
+.switch-field label:first-of-type {
+  border-radius: 4px 0 0 4px;
+}
+
+.switch-field label:last-of-type {
+  border-radius: 0 4px 4px 0;
+}
+
+.playlistListStyle{
+  background-color: #e4e4e40c;
+  padding: 20px;
+  margin-bottom: 5px;
+}
+
+.playlistListStyle:hover {
+  cursor: pointer;
+}
+
+#listOfPlaylists{
+  min-height: 60%;
+  max-height: 30px;
+  overflow-y: auto;
+}
+
+.addToPlaylist{
+  position:fixed;
+  color: rgb(34, 34, 34);
+  background-color: rgb(240, 240, 240);
+  padding: 1em;
+  transition: 1s;
+}
+
+.credits{
+  position: fixed;
+  color: rgb(34, 34, 34);
+  background-color: rgb(240, 240, 240);
+  width: 20vw;
+  padding: 1em;
+  left: 40vw;
+  transition: 1s;
+  display: none;
 }

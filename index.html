@@ -16,11 +16,17 @@
 </head>
 
 <body  class="bg-slate-800">
-    <section id="firstView" class="text-white text-center">
+    <section id="firstView" class="text-white text-center" style="display: none;">
         <div class="pt-5">
             <h1 class="header text-4xl font-bold"><u>Song Browser</u></h1>
-            <button id="playlistView">My Playlist</button>
-            <button>Credits</button>
+            <p id="headerButtons"><button id="playlistView">My Playlist</button><button id="creditButton">Credits</button>
+                <div class="credits">
+                    <button><a href="https://github.com/HassanKaderi/Assignment2">Github</a></button>
+                    <hr>
+                    Created by Hassan and Yuusuf
+                    <br>
+                </div>
+            </p>
         </div>
         <div class="flex justify-around bg-slate-900 w-auto p-8">
         <div class="left-side bg-slate-800 shadow-lg rounded box ">
@@ -41,7 +47,18 @@
                 <option value="1">Year</option>
                 <option value="2">Pop.</option>
             </select>
-            <input class='smallerSearch' type="number" class="PopYearSearch" placeholder="" ><br>
+            <input class='smallerSearch' type="number" class="PopYearSearch" id="browseFilterTwoText" placeholder="Number" ><br>
+
+            <div class="switch-field m-5 justify-center">
+                <input type="radio" id="radio-one" name="valueGiver" value="-1" checked><label for="radio-one">Lower</label>
+                <input type="radio" id="radio-two" name="valueGiver" value="1"><label for="radio-two">Higher</label>
+            </div>
+            <div class="popup">
+                <h1 id="popupTitle">
+                    Unable to search
+                </h1>
+            </div>
+            
 
             <hr class="style-four">
 
@@ -67,6 +84,8 @@
         </div>
         </div>
     </section>
+
+
     <section id="secondView" class="text-white text-left">
         <div class="py-5 text-center">
             <h1 class="header text-4xl">Header</h1>
@@ -93,42 +112,32 @@
         </div>
     </section>
 
-    <section id="thirdView" class="text-white text-center">
+    <section id="thirdView" class="text-white text-center" style="display: block;">
         <div class="pt-5">
-            <h1 class="header text-4xl font-bold"><u>My Playlist</u></h1>
-            <button id="songView">Song Browser</button>
-            <button>Credits</button>
+            <h1 class="header text-4xl font-bold"><u>Playlists</u></h1>
+            <p id="headerButtons"><button id="songView">Song Browser</button><button id="creditButton">Credits</button>
+                <div class="credits">
+                    <button><a href="https://github.com/HassanKaderi/Assignment2">Github</a></button>
+                    <hr>
+                    Created by Hassan and Yuusuf
+                    <br>
+                </div>
+            </p>
         </div>
         <div class="flex justify-around bg-slate-900 w-auto p-8">
         <div class="left-side bg-slate-800 shadow-lg rounded box ">
-            <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Song Search</h1>
-            <form action="">
-
-                <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Title"><br>
-                <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Artist"><br>
-                <input type="radio" name="filterType"><input id=songSearchBars type="text" placeholder="Genere"><br>
-    
-                <hr class="style-four">
-    
-                <input type="radio" name="filterType"><label>Year</label><br>
-                <input id=smallerSearch type="number" placeholder="Less"><br>
-                <input id=smallerSearch type="number" placeholder="Greater">
-    
-                <hr class="style-four">
-    
-                <input type="radio" name="filterType"><label>Popularity</label><br>
-                <input id=smallerSearch type="number" placeholder="Less"><br>
-                <input id=smallerSearch type="number" placeholder="Greater">
-    
-    
-                <hr class="style-four">
-    
+            <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">All Playlists</h1>
+            <hr class="style-four">
+            <ul id="listOfPlaylists"></ul>
+            <form action="" id="searchForm">
                 <button type="reset" class="text-gray-300" id="clearFilters">Clear</button> <button type="submit" class="text-gray-300">Search</button>
+                <button type="reset" class="text-gray-300">Remove All Playlist</button>
             </form>
         </div>
 
         <div>
-            <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Saved Results</h1>
+            <p><h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Playlist Details</h1><button>Delete Playlist</button></p>
+            
             <table>
                 <tr>
                     <th id="SortTitle">Title</th>
@@ -140,11 +149,21 @@
                 </tr>
             </table>
             <table class="justify-center" id="playlistResults">
+                <tr dataset="1167"><td>Alarm</td><td>Anne-Marie</td><td>2016</td><td>DANCE POP</td><td>62</td><td><button data-songid="1167">Add To Playlist</button>
+                    <div class="addToPlaylist">
+                        <select name="" id="" class="bg-transparent">
+                            <option value="0">Add to existing</option>
+                        </select>
+                        <hr>
+                        <input type="text" value="" class="bg-transparent" placeholder="Create new">
+                        <br>
+                        <button>Add</button>
+                    </div>
+                </td></tr>
             </table>
         </div>
         </div>
     </section>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="./starting-files/main.js"></script>   
 

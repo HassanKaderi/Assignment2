@@ -5,8 +5,7 @@ const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
 const playlist = JSON.parse(localStorage.getItem('playlist'));
-
-
+const arrOfPlaylists = [];
 
 let data = [];
 
@@ -34,28 +33,6 @@ function SearchOption(SongOBJ){
       SongOBJ.analytics.valence
    ];
 
-   const ctx = document.getElementById('mycanvas');
-
-   const myChart =
-   new Chart(ctx, {
-   type: 'radar',
-   data: {
-         labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Liveness', 'Valence'],
-   datasets: [{
-      label: 'Song Details',
-      data: data,
-      borderWidth: 3,       
-      }]
-   },
-            options: {
-            elements: {
-            line: {
-                borderWidth: 3
-                }
-            }
-          }
-});
-   myChart.update();
 }
 
 function addSongToTable(songOBJ, parent){
@@ -115,30 +92,42 @@ function findSong(songID){
 }
 
 function searchTitle(title){
-   let matchingTitle = songs.filter(searchedSong => searchedSong.title.toLowerCase() == title.toLowerCase());
-   for(let s of matchingTitle){
-      console.log(matchingTitle);
+   let matchingTitle = songs.filter(searchedSong => searchedSong.title.toLowerCase().includes(title.toLowerCase()));
+   document.querySelector('#searchResults').innerHTML = '';
+   for(a of matchingTitle){
+      addSongToTable(a, '#searchResults');
    }
 }
 
-function searchArtist(){
-
+function searchArtist(artist){
+   let matchingTitle = songs.filter(searchedSong => searchedSong.artist.name.toLowerCase().includes(artist.toLowerCase()));
+   document.querySelector('#searchResults').innerHTML = '';
+   for(a of matchingTitle){
+      addSongToTable(a, '#searchResults');
+   }
 }
 
-function searcheGenre(){
-
+function searcheGenre(genre){
+   let matchingTitle = songs.filter(searchedSong => searchedSong.genre.name.toLowerCase().includes(genre.toLowerCase()));
+   document.querySelector('#searchResults').innerHTML = '';
+   for(a of matchingTitle){
+      addSongToTable(a, '#searchResults');
+   }
 }
 
-function searchYear(year, sign){
+function searchYear(year, value){
    let x = document.querySelector('#searchResults');
    x.innerHTML ='';
    let search;
-   if(sign == '>')
+   if(value == '1'){
       search = songs.filter(songFound => songFound.year > year);
-   else
+   }  
+   else{
       search = songs.filter(songFound => songFound.year < year);
+   }
+      
    for(s of search){
-      addSongToTable(s);
+      addSongToTable(s, '#searchResults');
    }
 }
 
@@ -174,12 +163,15 @@ function checkSearchFilters(option, value){
    switch(option){
       case 1:
          console.log('looking for a Title! With this value: ' + value);
+         searchTitle(value);
          break;
       case 2:
          console.log('looking for a Genre! With this value: ' + value);
+         searchArtist(value);
          break;
       case 3:
          console.log('looking for a Artist! With this value: ' + value);
+         searcheGenre(value);
          break;
       default:
          break;
@@ -189,7 +181,60 @@ function checkSearchFilters(option, value){
 }
 }
 
-function addToPlaylist(songObj){
+function checkNumberFilters(option, value, oper){
+   if(value != ''){
+   switch(option){
+      case 1:
+         console.log('looking for a Year! With this value: ' + value + 'That is ' + oper);
+         searchYear(value, oper);
+         break;
+      case 2:
+         console.log('looking for a Pop! With this value: ' + value);
+         searchArtist(value);
+         break;
+      default:
+         break;
+   }
+} else {
+   alert('Please Add a value...')
+}
+}
+
+function createPlaylist(playlistName){
+   if(! (playlistName == 'songs' || arrOfPlaylists.find(item => item == playlistName))){
+      let arr = [];
+      localStorage.setItem(playlistName, JSON.stringify(arr));
+      arrOfPlaylists.push(playlistName);
+   } else {
+      console.log('Playlist exists or can not be named that!');
+   }
+}
+
+function deletePlaylist(playlistName){
+   if(playlistName == 'songs' || arrOfPlaylists.find(item => item == playlistName)){
+      localStorage.removeItem(playlistName);
+      arrOfPlaylists.splice(arrOfPlaylists.indexOf(playlistName));
+   } else {
+      console.log('Play list not found!')
+   }
+}
+
+function addPlaylistsToList(){
+   let x = document.querySelector('#listOfPlaylists');
+   for(a of arrOfPlaylists){
+      let li = document.createElement('li');
+      li.textContent = a;
+      li.setAttribute('class', 'playlistListStyle');
+      li.setAttribute('dataset', a);
+      li.addEventListener('click', function (e) {
+         console.log(e.target);
+      })
+      x.appendChild(li)
+   }
+}
+
+
+function addToPlaylist(songObj, playlistName){
    let playlist = localStorage.getItem('playlist');
    if(!playlist){ // If the playlist is empty we need to create a new array object
       let arr = [];
@@ -209,13 +254,16 @@ function addToPlaylist(songObj){
    }
 }
 
-function removeFromPlaylist(songObj){
+function removeFromPlaylist(songObj, playlistName){
+   document.querySelector('#playlistResults').innerHTML = '';
    let playlist = JSON.parse(localStorage.getItem('playlist'));
    if(playlist.includes(playlist.find(song => song.song_id == songObj.song_id))){
       console.log('Removing song found at: ' + playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)));
       playlist.splice(playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)), 1)
       localStorage.setItem('playlist', JSON.stringify(playlist));
-      document.querySelector(`#playlistResults, [dataset="${songObj.song_id}"]`).remove();
+      for(a of playlist){
+         addSongToTable(a, '#playlistResults');
+      }
    } else {
       console.log('Song not found');
    }
@@ -224,7 +272,7 @@ function removeFromPlaylist(songObj){
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
    document.querySelector('#secondView').style.display = 'none';
-   document.querySelector('#thirdView').style.display = 'none';
+   // document.querySelector('#thirdView').style.display = 'none';
 
    document.querySelector('#playlistView').addEventListener('click', function(){
       document.querySelector('#thirdView').style.display = 'block';
@@ -261,9 +309,14 @@ window.addEventListener('DOMContentLoaded', () => {
          addSongToTable(song, '#playlistResults');
       }
    }
+
+   // This clears all the filters, and remaps the Songs
    document.querySelector('#clearFilters').addEventListener('click', function (e){
       let x = document.querySelector('#searchResults');
       x.innerHTML ='';
+      for(aSong of songs){
+         addSongToTable(aSong, '#searchResults');
+      }
    });
 
    // Adding the event listner to when the search button is clicked for the searching
@@ -272,11 +325,26 @@ window.addEventListener('DOMContentLoaded', () => {
       let formTwoValue = document.querySelector('#browseFilterTwo');
 
       let textBoxOne = document.querySelector('#browseFilterOneText').value;
+      let textBoxTwo = document.querySelector('#browseFilterTwoText').value;
+
+      let opp = document.querySelectorAll('[name="valueGiver"]');
+
+      let popup = document.querySelector('.popup');
+      let popupText = document.querySelector('#popupTitle');
 
       if(formOneValue.selectedIndex == 0 && formTwoValue.selectedIndex == 0){
-         alert("Please Select AN option!");
+         popupText.textContent = 'Please Select a filter type!';
+         popup.style.display = 'block';
+         setTimeout(()=>{
+            popup.style.display = 'none';
+         },3000)
+         
       } else if((formOneValue.selectedIndex > 0 && formTwoValue.selectedIndex > 0)){
-         alert("Please Select only ONE option!");
+         popupText.textContent = 'Please choose only one filter type!';
+         popup.style.display = 'block';
+         setTimeout(()=>{
+            popup.style.display = 'none';
+         },3000)
          formOneValue.selectedIndex = 0;
          formTwoValue.selectedIndex = 0;
       } else {
@@ -284,8 +352,37 @@ window.addEventListener('DOMContentLoaded', () => {
             // Filter either title genre or playlist
             checkSearchFilters(formOneValue.selectedIndex, textBoxOne);
          } else {
-            
+            if(opp[0].checked){
+               checkNumberFilters(formTwoValue.selectedIndex, textBoxTwo, '-1');
+            }else{
+               checkNumberFilters(formTwoValue.selectedIndex, textBoxTwo, '1');
+            }
+            // Filter Either Year or Popularity
          }
+      }
+   });
+
+   // Adding credit popup 
+
+   // <p id="headerButtons"><button id="songView">Song Browser</button><button>Credits</button>
+   //              <div class="credits">
+   //                  <button><a href="https://github.com/HassanKaderi/Assignment2">Github</a></button>
+   //                  <hr>
+   //                  Created by Hassan and Yuusuf
+   //                  <br>
+   //              </div>
+   //          </p>
+
+   let credits = document.querySelector('#creditButton');
+   credits.addEventListener('click', () => {
+      let popup = document.querySelector('.credits');
+      if(popup.style.display == 'block'){
+         popup.style.display = 'none';
+      } else {
+         popup.style.display = 'block';
+         setTimeout(()=> {
+            popup.style.display = 'none';
+         }, '5000');
       }
    });
 

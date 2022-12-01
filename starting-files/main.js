@@ -9,6 +9,11 @@ const arrOfPlaylists = [];
 
 let data = [];
 
+window.addEventListener('click', function(){
+   let x = this.document.querySelectorAll('.addToPlaylist');
+
+});
+
 function SearchOption(SongOBJ){
    const titleCard = document.querySelector("#cardTitle");
    const artistCard = document.querySelector("#cardName");
@@ -68,11 +73,16 @@ function addSongToTable(songOBJ, parent){
 
    let add = document.createElement("td");
    let but = document.createElement('button');
+
+
+
+
    but.setAttribute('data-songid', songOBJ.song_id);
    if(parent == '#searchResults'){
       but.textContent = 'Add To Playlist';
       but.addEventListener('click', function(e){
-         addToPlaylist(findSong(e.target.dataset.songid));
+         addToPlaylistPopup(e, songOBJ.song_id);
+         // addToPlaylist(findSong(e.target.dataset.songid));
       });
    } else {
       but.textContent = 'Remove From Playlist'
@@ -269,8 +279,81 @@ function removeFromPlaylist(songObj, playlistName){
    }
 }
 
+function removeAllPlaylists(){
+   // VERY IMPORTANT!!!!!
+   for(key in localStorage){
+      if(localStorage.getItem(key) != null && key != 'songs'){
+         localStorage.removeItem(key);
+      }
+   }
+}
+
+function addToPlaylistPopup(e, songId){
+   let div = document.createElement('div');
+   div.className = 'addToPlaylist';
+   let select = document.createElement('select');
+   select.className = 'bg-transparent';
+
+   let option = document.createElement('option');
+   option.textContent = 'Choose Playlist';
+   option.value = 0;
+   select.appendChild(option);
+
+   let i = 1;
+   for(list of arrOfPlaylists){
+      let option = document.createElement('option');
+      option.textContent = list;
+      option.value = i;
+      select.appendChild(option);
+      i++;
+   }
+
+   div.appendChild(select);
+   div.appendChild(document.createElement('hr'));
+    
+   let inp = document.createElement('input');
+   inp.type = 'text';
+   inp.className = 'bg-transparent';
+   inp.placeholder = 'Create new';
+   div.appendChild(inp);
+   div.appendChild(document.createElement('br'));
+
+   let but = document.createElement('button');
+   but.textContent = 'Add';
+   but.addEventListener('click', function(e){
+      if(inp.value == ''){
+         alert('You need to add a title.');
+      } else {
+         createPlaylist(inp.value);
+         addPlaylistsToList();
+      }
+
+
+      e.target.parentNode.remove();
+   })
+
+   div.appendChild(but);
+
+   e.target.parentNode.appendChild(div);
+   
+}
+
+/*
+<div class="addToPlaylist">
+        <select name="" id="" class="bg-transparent">
+            <option value="0">Add to existing</option>
+        </select>
+        <hr>
+        <input type="text" value="" class="bg-transparent" placeholder="Create new">
+        <br>
+        <button>Add</button>
+    </div>
+    */
+
+
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
+   addPlaylistsToList();
    document.querySelector('#secondView').style.display = 'none';
    // document.querySelector('#thirdView').style.display = 'none';
 
@@ -304,11 +387,12 @@ window.addEventListener('DOMContentLoaded', () => {
    if(!playlist){
       let arr = [];
       localStorage.setItem('playlist', JSON.stringify(arr));
-   } else {
-      for(song of playlist){
-         addSongToTable(song, '#playlistResults');
-      }
    }
+   // } else {
+   //    for(song of playlist){
+   //       addSongToTable(song, '#playlistResults');
+   //    }
+   // }
 
    // This clears all the filters, and remaps the Songs
    document.querySelector('#clearFilters').addEventListener('click', function (e){
@@ -374,8 +458,21 @@ window.addEventListener('DOMContentLoaded', () => {
    //          </p>
 
    let credits = document.querySelector('#creditButton');
+   let credits2 = document.querySelector('#creditButtonTwo');
    credits.addEventListener('click', () => {
       let popup = document.querySelector('.credits');
+      if(popup.style.display == 'block'){
+         popup.style.display = 'none';
+      } else {
+         popup.style.display = 'block';
+         setTimeout(()=> {
+            popup.style.display = 'none';
+         }, '5000');
+      }
+   });
+
+   credits2.addEventListener('click', () => {
+      let popup = document.querySelector('#credTwo');
       if(popup.style.display == 'block'){
          popup.style.display = 'none';
       } else {

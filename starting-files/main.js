@@ -4,7 +4,7 @@ const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.p
 const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
-const playlist = JSON.parse(localStorage.getItem('playlist'));
+const playlist = JSON.parse(localStorage.getItem('playlist')); // THis is a testing playlist
 const arrOfPlaylists = [];
 
 let data = [];

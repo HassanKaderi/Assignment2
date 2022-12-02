@@ -16,7 +16,7 @@
 </head>
 
 <body  class="bg-slate-800">
-    <section id="firstView" class="text-white text-center" style="display: none;">
+    <section id="firstView" class="text-white text-center" style="display: block;">
         <div class="pt-5">
             <h1 class="header text-4xl font-bold"><u>Song Browser</u></h1>
             <p id="headerButtons"><button id="playlistView">My Playlist</button><button id="creditButton">Credits</button>
@@ -70,10 +70,10 @@
         <div>
             <h1 class="text-4xl font-bold py-2 text-gray-200 text-center px-10">Searched Results</h1>
             <table>
-                <tr>
+                <tr id="searchSort">
                     <th id="SortTitle">Title</th>
                     <th id="SortArtist">Artist</th>
-                    <th id="SortYear" data-sort="0">Year</th>
+                    <th id="SortYear">Year</th>
                     <th id="SortGenre">Genre</th>
                     <th id="SortPopularity">Popularity</th>
                     <th id="AddToPlayList">★</th>
@@ -112,7 +112,7 @@
         </div>
     </section>
 
-    <section id="thirdView" class="text-white text-center" style="display: block;">
+    <section id="thirdView" class="text-white text-center" style="display: none;">
         <div class="pt-5">
             <h1 class="header text-4xl font-bold"><u>Playlists</u></h1>
             <p id="headerButtons"><button id="songView">Song Browser</button><button id="creditButtonTwo">Credits</button>
@@ -131,7 +131,7 @@
             <ul id="listOfPlaylists"></ul>
             <form action="" id="searchForm">
                 <button type="reset" class="text-gray-300" id="clearFilters">Clear</button> <button type="submit" class="text-gray-300">Search</button>
-                <button type="reset" class="text-gray-300">Remove All Playlist</button>
+                <button type="reset" id="removeAllFromPlaylist" class="text-gray-300">Remove All Playlist</button>
             </form>
         </div>
 

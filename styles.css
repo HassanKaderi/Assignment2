@@ -101,6 +101,10 @@ select option {
     background-color: rgb(60, 66, 87);
 }
 
+.specialOption {
+    background-color: rgb(216, 216, 216);
+}
+
 .popup{
     background-color: rgba(231, 57, 80, 0.829);
     padding: 20px;

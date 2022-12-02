@@ -4,15 +4,61 @@ const api = 'http://www.randyconnolly.com/funwebdev/3rd/api/music/songs-nested.p
 const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
-const playlist = JSON.parse(localStorage.getItem('playlist')); // THis is a testing playlist
 const arrOfPlaylists = [];
+let currentSongs = [];
 
 let data = [];
 
-window.addEventListener('click', function(){
-   let x = this.document.querySelectorAll('.addToPlaylist');
+function sort(condition, boxResults){
+   let x = document.querySelector(boxResults);
+   x.innerHTML = '';
+   let sortSongs = songs; // neede to change
+   switch(condition.toLowerCase()){
+      case 'title':
+         currentSongs.sort((a,b) =>   {
+            if (a.title > b.title) {
+               return 1;
+             }
+             if (a.title < b.title) {
+               return -1;
+             }
+             return 0;});
+         break
+      case 'artist':
+         currentSongs.sort((a,b) =>   {
+            if (a.artist.name > b.artist.name) {
+               return 1;
+             }
+             if (a.artist.name < b.artist.name) {
+               return -1;
+             }
+             return 0;});
+         break
+      case 'year':
+         currentSongs.sort((a,b) => b.year - a.year);
+         break
+      case 'genre':
+         currentSongs.sort((a,b) =>   {
+            if (a.genre.name > b.genre.name) {
+               return 1;
+             }
+             if (a.genre.name < b.genre.name) {
+               return -1;
+             }
+             return 0;});
+         break
+      case 'popularity':
+         currentSongs.sort((a,b) => b.details.popularity - a.details.popularity);
+         break
+      default:
+         console.log('No sorting available')
+         break
+   }
 
-});
+   for(asong of currentSongs){
+      addSongToTable(asong,'#searchResults');
+   }
+}
 
 function SearchOption(SongOBJ){
    const titleCard = document.querySelector("#cardTitle");
@@ -104,24 +150,30 @@ function findSong(songID){
 function searchTitle(title){
    let matchingTitle = songs.filter(searchedSong => searchedSong.title.toLowerCase().includes(title.toLowerCase()));
    document.querySelector('#searchResults').innerHTML = '';
+   currentSongs = [];
    for(a of matchingTitle){
       addSongToTable(a, '#searchResults');
+      currentSongs.push(a);
    }
 }
 
 function searchArtist(artist){
    let matchingTitle = songs.filter(searchedSong => searchedSong.artist.name.toLowerCase().includes(artist.toLowerCase()));
    document.querySelector('#searchResults').innerHTML = '';
+   currentSongs = [];
    for(a of matchingTitle){
       addSongToTable(a, '#searchResults');
+      currentSongs.push(a);
    }
 }
 
 function searcheGenre(genre){
    let matchingTitle = songs.filter(searchedSong => searchedSong.genre.name.toLowerCase().includes(genre.toLowerCase()));
    document.querySelector('#searchResults').innerHTML = '';
+   currentSongs = [];
    for(a of matchingTitle){
       addSongToTable(a, '#searchResults');
+      currentSongs.push(a);
    }
 }
 
@@ -135,9 +187,10 @@ function searchYear(year, value){
    else{
       search = songs.filter(songFound => songFound.year < year);
    }
-      
+   currentSongs = [];
    for(s of search){
       addSongToTable(s, '#searchResults');
+      currentSongs.push(s);
    }
 }
 
@@ -145,12 +198,18 @@ function searchPop(rating, sign){
    let x = document.querySelector('#searchResults');
    x.innerHTML ='';
    let search;
-   if(sign == '>')
+   if(sign == '1'){
       search = songs.filter(songFound => songFound.details.popularity > rating);
-   else
+   }
+   else{
       search = songs.filter(songFound => songFound.details.popularity < rating);
+   }
+      
+      
+   currentSongs = [];
    for(s of search){
-      addSongToTable(s);
+      addSongToTable(s, '#searchResults');
+      currentSongs.push(s);
    }
 
 }
@@ -231,7 +290,9 @@ function deletePlaylist(playlistName){
 
 function addPlaylistsToList(){
    let x = document.querySelector('#listOfPlaylists');
-   for(a of arrOfPlaylists){
+   x.innerHTML = '';
+   for(a in localStorage){
+   if(localStorage.getItem(a) != null && a != 'songs'){
       let li = document.createElement('li');
       li.textContent = a;
       li.setAttribute('class', 'playlistListStyle');
@@ -242,26 +303,27 @@ function addPlaylistsToList(){
       x.appendChild(li)
    }
 }
+}
 
 
 function addToPlaylist(songObj, playlistName){
-   let playlist = localStorage.getItem('playlist');
-   if(!playlist){ // If the playlist is empty we need to create a new array object
-      let arr = [];
-      arr = [songObj];
-      localStorage.setItem('playlist', JSON.stringify(arr));
-      addSongToTable(songObj, '#playlistResults');
-   } else { // now that the playlist is not empty we hav to check for duplicates so we do not accidentally add em.
-      let x = JSON.parse(playlist);
-      if(!x.includes(x.find(song => song.song_id == songObj.song_id))){
-         x.push(songObj);
-         console.log(x)
-         localStorage.setItem('playlist', JSON.stringify(x));
-         addSongToTable(songObj, '#playlistResults');
-      } else {
-         alert("This song is already in your playlist!");
-      }
+   let playlistGiven = localStorage.getItem(playlistName);
+   if(!playlistGiven){ // If the playlist is empty we need to create a new array object
+      console.log('creating new playlist...');
+      createPlaylist(playlistName);
    }
+   // now that the playlist is not empty we hav to check for duplicates so we do not accidentally add em.
+   console.log(playlistGiven);
+   let x = JSON.parse(playlistGiven);
+   if(!x.includes(x.find(song => song.song_id == songObj.song_id))){
+      x.push(songObj);
+      console.log(x)
+      localStorage.setItem(playlistName, JSON.stringify(x));
+      addSongToTable(songObj, '#playlistResults');
+   } else {
+      alert("This song is already in your playlist!");
+   }
+   
 }
 
 function removeFromPlaylist(songObj, playlistName){
@@ -286,26 +348,38 @@ function removeAllPlaylists(){
          localStorage.removeItem(key);
       }
    }
+   addPlaylistsToList();
 }
 
 function addToPlaylistPopup(e, songId){
    let div = document.createElement('div');
    div.className = 'addToPlaylist';
+   div.id = 'popupwindow';
+
    let select = document.createElement('select');
    select.className = 'bg-transparent';
+   select.addEventListener('change', function(e){
+      // ADDING A SONG TO A CERTAIN PLAYLIST!!!!!
+      e.target.parentNode.remove()
+   });
 
    let option = document.createElement('option');
    option.textContent = 'Choose Playlist';
    option.value = 0;
+   option.className = 'specialOption';
    select.appendChild(option);
 
-   let i = 1;
-   for(list of arrOfPlaylists){
-      let option = document.createElement('option');
-      option.textContent = list;
-      option.value = i;
-      select.appendChild(option);
-      i++;
+   let i = '';
+   for(list in localStorage){
+      if(localStorage.getItem(list) != null && list != 'songs'){
+         let option = document.createElement('option');
+         option.textContent = list;
+         option.value = list;
+         option.className = 'specialOption';
+         select.appendChild(option);
+         i++;
+      }
+      
    }
 
    div.appendChild(select);
@@ -324,11 +398,9 @@ function addToPlaylistPopup(e, songId){
       if(inp.value == ''){
          alert('You need to add a title.');
       } else {
-         createPlaylist(inp.value);
+         addToPlaylist(findSong('1167'), inp.value)
          addPlaylistsToList();
       }
-
-
       e.target.parentNode.remove();
    })
 
@@ -368,7 +440,6 @@ window.addEventListener('DOMContentLoaded', () => {
    });
 
    const jsonData = localStorage.getItem('songs');
-   const playlist = JSON.parse(localStorage.getItem('playlist'));
 
    if(!jsonData){
       fetch(api).then((response) => response.json())
@@ -377,16 +448,13 @@ window.addEventListener('DOMContentLoaded', () => {
          for(aSong of data){
             addSongToTable(aSong, '#searchResults');
          }
+         window.location.reload(); // Needed to reload the page so that local storage has everything needed
       });
    } else {
       const songs = JSON.parse(jsonData);
       for(aSong of songs){
          addSongToTable(aSong, '#searchResults');
       }
-   }
-   if(!playlist){
-      let arr = [];
-      localStorage.setItem('playlist', JSON.stringify(arr));
    }
    // } else {
    //    for(song of playlist){
@@ -483,6 +551,29 @@ window.addEventListener('DOMContentLoaded', () => {
       }
    });
 
+   // Sorting titles event listner
+
+   var table = document.getElementById("searchSort");
+   for (var i = 0, cell; cell = table.cells[i]; i++) {
+      cell.addEventListener('click', (e) => {
+         sort(e.target.textContent, '#searchResults');
+      });
+      cell.style.cursor = 'pointer';
+   }
+
+   var table = document.getElementById("searchSort");
+   for (var i = 0, cell; cell = table.cells[i]; i++) {
+      cell.addEventListener('click', (e) => {
+         sort(e.target.textContent, '#searchResults');
+      });
+      cell.style.cursor = 'pointer';
+   }
+   
+   let remove = document.querySelector('#removeAllFromPlaylist');
+   remove.addEventListener('click', function(){
+      alert('Removing all playlist!');
+      removeAllPlaylists();
+   });
 
 });
 

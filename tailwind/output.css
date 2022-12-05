@@ -751,6 +751,10 @@ select option {
   background-color: rgb(60, 66, 87);
 }
 
+.specialOption {
+  background-color: rgb(216, 216, 216);
+}
+
 .popup{
   background-color: rgba(231, 57, 80, 0.829);
   padding: 20px;
@@ -822,7 +826,7 @@ select option {
 }
 
 .addToPlaylist{
-  position:fixed;
+  position:relative;
   color: rgb(34, 34, 34);
   background-color: rgb(240, 240, 240);
   padding: 1em;

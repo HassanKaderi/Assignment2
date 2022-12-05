@@ -5,7 +5,7 @@ const artist = JSON.parse(artists); // Have all the aritsts
 const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
 const arrOfPlaylists = [];
-let currentSongs = [];
+let currentSongs = songs;
 
 let data = [];
 
@@ -86,7 +86,7 @@ function SearchOption(SongOBJ){
 
 }
 
-function addSongToTable(songOBJ, parent){
+function addSongToTable(songOBJ, parent, playlist){
    let parentNode = document.querySelector(parent);
    let tr = document.createElement("tr");
    tr.setAttribute('dataset', songOBJ.song_id);
@@ -124,6 +124,7 @@ function addSongToTable(songOBJ, parent){
 
 
    but.setAttribute('data-songid', songOBJ.song_id);
+   but.setAttribute('data-playlist', playlist);
    if(parent == '#searchResults'){
       but.textContent = 'Add To Playlist';
       but.addEventListener('click', function(e){
@@ -133,7 +134,8 @@ function addSongToTable(songOBJ, parent){
    } else {
       but.textContent = 'Remove From Playlist'
       but.addEventListener('click', function(e){
-         removeFromPlaylist(findSong(e.target.dataset.songid));
+         console.log(e.target);
+         removeFromPlaylist(findSong(e.target.dataset.songid), e.target.dataset.playlist);
       });
    }
    add.appendChild(but);
@@ -214,7 +216,7 @@ function searchPop(rating, sign){
 
 }
 
-function hideView () {
+function hideView() {
    let x = document.getElementById("secondView"); 
 
    if (x.style.display === "none") {
@@ -259,7 +261,7 @@ function checkNumberFilters(option, value, oper){
          break;
       case 2:
          console.log('looking for a Pop! With this value: ' + value);
-         searchArtist(value);
+         searchPop(value, oper);
          break;
       default:
          break;
@@ -280,12 +282,11 @@ function createPlaylist(playlistName){
 }
 
 function deletePlaylist(playlistName){
-   if(playlistName == 'songs' || arrOfPlaylists.find(item => item == playlistName)){
-      localStorage.removeItem(playlistName);
-      arrOfPlaylists.splice(arrOfPlaylists.indexOf(playlistName));
-   } else {
-      console.log('Play list not found!')
-   }
+   for(a in localStorage){
+      if(!(playlistName == 'songs' || localStorage.getItem(a) != null)){
+         localStorage.removeItem(playlistName);
+      }
+   }   
 }
 
 function addPlaylistsToList(){
@@ -298,41 +299,57 @@ function addPlaylistsToList(){
       li.setAttribute('class', 'playlistListStyle');
       li.setAttribute('dataset', a);
       li.addEventListener('click', function (e) {
-         console.log(e.target);
+         console.log(e.target.textContent);
+         document.getElementById('removeCurrentPlaylist').dataset.playlist = e.target.textContent;
+         updatePlaylistView(e.target.textContent);
       })
       x.appendChild(li)
    }
 }
 }
 
+function updatePlaylistView(playlistName){
+   document.getElementById('playlistResults').innerHTML = '';
+   let x = localStorage.getItem(playlistName);
+   let parsed  = JSON.parse(x);
+   for(num of parsed){
+      addSongToTable(num, '#playlistResults', playlistName);
+   }
+}
 
 function addToPlaylist(songObj, playlistName){
    let playlistGiven = localStorage.getItem(playlistName);
+   
    if(!playlistGiven){ // If the playlist is empty we need to create a new array object
-      console.log('creating new playlist...');
-      createPlaylist(playlistName);
+      if(! (playlistName == 'songs' || arrOfPlaylists.find(item => item == playlistName))){
+         console.log(playlistGiven + ': Playlist doenst exist, lemme make a new one called: ' + playlistName);
+         createPlaylist(playlistName);
+         addToPlaylist(songObj, playlistName);
+      }
+   } else {
+      console.log('Found the list, time to add the song!')
+      let x = JSON.parse(playlistGiven);
+      if(!x.includes(x.find(song => song.song_id == songObj.song_id))){
+         x.push(songObj);
+         console.log(x)
+         localStorage.setItem(playlistName, JSON.stringify(x));
+         addSongToTable(songObj, '#playlistResults', playlistName);
+      } else {
+         alert("This song is already in your playlist!");
+      }
    }
    // now that the playlist is not empty we hav to check for duplicates so we do not accidentally add em.
-   console.log(playlistGiven);
-   let x = JSON.parse(playlistGiven);
-   if(!x.includes(x.find(song => song.song_id == songObj.song_id))){
-      x.push(songObj);
-      console.log(x)
-      localStorage.setItem(playlistName, JSON.stringify(x));
-      addSongToTable(songObj, '#playlistResults');
-   } else {
-      alert("This song is already in your playlist!");
-   }
+   
    
 }
 
 function removeFromPlaylist(songObj, playlistName){
    document.querySelector('#playlistResults').innerHTML = '';
-   let playlist = JSON.parse(localStorage.getItem('playlist'));
-   if(playlist.includes(playlist.find(song => song.song_id == songObj.song_id))){
-      console.log('Removing song found at: ' + playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)));
-      playlist.splice(playlist.indexOf(playlist.find(song => song.song_id == songObj.song_id)), 1)
-      localStorage.setItem('playlist', JSON.stringify(playlist));
+   let playlist = JSON.parse(localStorage.getItem(playlistName));
+
+   if(playlist.includes(playlist.find(someElement => someElement.song_id == songObj.song_id))){
+      playlist.splice(playlist.indexOf(playlist.find(someElement => someElement.song_id == songObj.song_id)), 1)
+      localStorage.setItem(playlistName, JSON.stringify(playlist));
       for(a of playlist){
          addSongToTable(a, '#playlistResults');
       }
@@ -348,6 +365,7 @@ function removeAllPlaylists(){
          localStorage.removeItem(key);
       }
    }
+   document.querySelector('#playlistResults').innerHTML = '';
    addPlaylistsToList();
 }
 
@@ -359,7 +377,7 @@ function addToPlaylistPopup(e, songId){
    let select = document.createElement('select');
    select.className = 'bg-transparent';
    select.addEventListener('change', function(e){
-      // ADDING A SONG TO A CERTAIN PLAYLIST!!!!!
+      addToPlaylist(findSong(songId), e.target.value)
       e.target.parentNode.remove()
    });
 
@@ -398,7 +416,7 @@ function addToPlaylistPopup(e, songId){
       if(inp.value == ''){
          alert('You need to add a title.');
       } else {
-         addToPlaylist(findSong('1167'), inp.value)
+         addToPlaylist(findSong(songId), inp.value)
          addPlaylistsToList();
       }
       e.target.parentNode.remove();
@@ -409,19 +427,7 @@ function addToPlaylistPopup(e, songId){
    e.target.parentNode.appendChild(div);
    
 }
-
-/*
-<div class="addToPlaylist">
-        <select name="" id="" class="bg-transparent">
-            <option value="0">Add to existing</option>
-        </select>
-        <hr>
-        <input type="text" value="" class="bg-transparent" placeholder="Create new">
-        <br>
-        <button>Add</button>
-    </div>
-    */
-
+   
 
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
@@ -561,13 +567,6 @@ window.addEventListener('DOMContentLoaded', () => {
       cell.style.cursor = 'pointer';
    }
 
-   var table = document.getElementById("searchSort");
-   for (var i = 0, cell; cell = table.cells[i]; i++) {
-      cell.addEventListener('click', (e) => {
-         sort(e.target.textContent, '#searchResults');
-      });
-      cell.style.cursor = 'pointer';
-   }
    
    let remove = document.querySelector('#removeAllFromPlaylist');
    remove.addEventListener('click', function(){
@@ -575,15 +574,16 @@ window.addEventListener('DOMContentLoaded', () => {
       removeAllPlaylists();
    });
 
+   document.getElementById('removeCurrentPlaylist').addEventListener('click', function (e){
+      if(e.target.dataset.playlist == 'none'){
+         alert('Please select a playlist first!');
+      } else {
+         console.log(e.target.dataset.playlist);
+         deletePlaylist(e.target.dataset.playlist)
+         e.target.dataset.playlist = 'none';
+         addPlaylistsToList();
+         document.getElementById('playlistResults').innerHTML = '';
+      }
+   })
+
 });
-
-
-
-
-
-
-/* note: you may get a CORS error if you try fetching this locally (i.e., directly from a
-   local file). To work correctly, this needs to be tested on a local web server.  
-   Some possibilities: if using Visual Code, use Live Server extension; if Brackets,
-   use built-in Live Preview.
-*/

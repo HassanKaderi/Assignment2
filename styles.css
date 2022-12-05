@@ -176,7 +176,7 @@ select option {
 }
 
 .addToPlaylist{
-    position:fixed;
+    position:relative;
     color: rgb(34, 34, 34);
     background-color: rgb(240, 240, 240);
     padding: 1em;

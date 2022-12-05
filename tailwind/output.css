@@ -843,3 +843,8 @@ select option {
   transition: 1s;
   display: none;
 }
+
+#mycanvas{
+  background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+  border-radius: 5px;
+}

@@ -6,8 +6,42 @@ const genre = JSON.parse(genres); // Have all the Genres
 const songs = JSON.parse(localStorage.getItem('songs'));
 const arrOfPlaylists = [];
 let currentSongs = songs;
+let numData = [];
 
-let data = [];
+   const data = {
+      labels: [
+        'Danceability',
+        'Energy',
+        'Speechiness',
+        'Acousticness',
+        'Liveness',
+        'Valence',
+      ],
+      datasets: [{ // Dataset 0
+        label: 'Song Name',
+        data: numData,
+        fill: true,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgb(255, 99, 132)',
+        pointBackgroundColor: 'rgb(255, 99, 132)',
+        pointHoverBorderColor: 'rgb(255, 99, 132)'
+      }]
+    };
+
+    const config = {
+      type: 'radar',
+      data: data,
+      options: {
+        elements: {
+          line: {
+            borderWidth: 3
+          }
+        }
+      },
+    };
+   
+   let ctx = document.getElementById('mycanvas');
+   const newChart = new Chart(ctx, config);
 
 function sort(condition, boxResults){
    let x = document.querySelector(boxResults);
@@ -75,7 +109,7 @@ function SearchOption(SongOBJ){
    yearCard.textContent = SongOBJ.year;
    durrationCard.textContent = Math.floor(SongOBJ.details.duration / 60) + ':' + ('0' + Math.floor(SongOBJ.details.duration % 60)).slice(-2);
 
-   data = [
+   numData = [
       SongOBJ.analytics.danceability,
       SongOBJ.analytics.energy,
       SongOBJ.analytics.speechiness,
@@ -83,6 +117,21 @@ function SearchOption(SongOBJ){
       SongOBJ.analytics.liveness,
       SongOBJ.analytics.valence
    ];
+
+   const newDataset = { // Dataset 0
+      label: 'Song Analysis',
+      data: numData,
+      fill: true,
+      backgroundColor: 'rgba(0, 99, 132, 0.2)',
+      borderColor: 'rgb(0, 99, 132)',
+      pointBackgroundColor: 'rgb(0, 99, 132)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgb(0, 99, 132)'
+   }
+   newChart.data.datasets.pop();
+   newChart.data.datasets.push(newDataset);
+   newChart.update();
 
 }
 
@@ -427,8 +476,7 @@ function addToPlaylistPopup(e, songId){
    e.target.parentNode.appendChild(div);
    
 }
-   
-
+ 
 window.addEventListener('DOMContentLoaded', () => {
    //The reason we made an on content load event listener is so that the content loads before we output anything
    addPlaylistsToList();
@@ -522,14 +570,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
    // Adding credit popup 
 
-   // <p id="headerButtons"><button id="songView">Song Browser</button><button>Credits</button>
-   //              <div class="credits">
-   //                  <button><a href="https://github.com/HassanKaderi/Assignment2">Github</a></button>
-   //                  <hr>
-   //                  Created by Hassan and Yuusuf
-   //                  <br>
-   //              </div>
-   //          </p>
+   //Creating Chart
+
+   
+
+   
 
    let credits = document.querySelector('#creditButton');
    let credits2 = document.querySelector('#creditButtonTwo');

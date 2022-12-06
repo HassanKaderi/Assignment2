@@ -104,8 +104,8 @@ function SearchOption(SongOBJ){
 
    titleCard.textContent = SongOBJ.title;//songOBJ.returnSongTitle();
    artistCard.textContent = 'By, ' + SongOBJ.artist.name;
-   artistTypeCard.textContent = 'Artist Type: ' + SongOBJ.genre.name.toUpperCase();
-   genreCard.textContent = 'test'.toUpperCase();
+   artistTypeCard.textContent = 'Artist Type: ' + artist.find(artist => artist.id = SongOBJ.artist.id).type;
+   genreCard.textContent = 'Song Genre ' + SongOBJ.genre.name.toUpperCase()
    yearCard.textContent = 'Released: ' +  SongOBJ.year;
    durrationCard.textContent = 'Song Duration: ' + Math.floor(SongOBJ.details.duration / 60) + ':' + ('0' + Math.floor(SongOBJ.details.duration % 60)).slice(-2);
 
@@ -355,7 +355,8 @@ function createPlaylist(playlistName){
 function deletePlaylist(playlistName){
    for(a in localStorage){
       if(!(playlistName == 'songs' || localStorage.getItem(a) != null)){
-         localStorage.removeItem(playlistName);
+         let x = [];
+         localStorage.setItem(playlistName, JSON.stringify(x));
       }
    }   
 }
@@ -601,7 +602,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
    let credits = document.querySelector('#creditButton');
    let credits2 = document.querySelector('#creditButtonTwo');
-   credits.addEventListener('click', () => {
+   credits.addEventListener('mouseover', () => {
       let popup = document.querySelector('.credits');
       if(popup.style.display == 'block'){
          popup.style.display = 'none';
@@ -613,7 +614,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
    });
 
-   credits2.addEventListener('click', () => {
+   credits2.addEventListener('mouseover', () => {
       let popup = document.querySelector('#credTwo');
       if(popup.style.display == 'block'){
          popup.style.display = 'none';

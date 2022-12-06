@@ -198,3 +198,9 @@ select option {
     background-color: rgb(30 41 59 / var(--tw-bg-opacity));
     border-radius: 5px;
 }
+
+.mouseOverEvent:hover{
+    cursor: pointer;
+    text-decoration: underline solid #fff 2px;
+    transition: 2s;
+}

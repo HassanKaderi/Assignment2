@@ -618,6 +618,11 @@ video {
   line-height: 2rem;
 }
 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -847,4 +852,11 @@ select option {
 #mycanvas{
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
   border-radius: 5px;
+}
+
+.mouseOverEvent:hover{
+  cursor: pointer;
+  -webkit-text-decoration: underline solid #fff 2px;
+          text-decoration: underline solid #fff 2px;
+  transition: 2s;
 }

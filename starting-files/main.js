@@ -103,11 +103,32 @@ function SearchOption(SongOBJ){
    const durrationCard = document.querySelector("#cardDuration");
 
    titleCard.textContent = SongOBJ.title;//songOBJ.returnSongTitle();
-   artistCard.textContent = SongOBJ.artist.name;
-   artistTypeCard.textContent = SongOBJ.genre.name.toUpperCase();
+   artistCard.textContent = 'By, ' + SongOBJ.artist.name;
+   artistTypeCard.textContent = 'Artist Type: ' + SongOBJ.genre.name.toUpperCase();
    genreCard.textContent = 'test'.toUpperCase();
-   yearCard.textContent = SongOBJ.year;
-   durrationCard.textContent = Math.floor(SongOBJ.details.duration / 60) + ':' + ('0' + Math.floor(SongOBJ.details.duration % 60)).slice(-2);
+   yearCard.textContent = 'Released: ' +  SongOBJ.year;
+   durrationCard.textContent = 'Song Duration: ' + Math.floor(SongOBJ.details.duration / 60) + ':' + ('0' + Math.floor(SongOBJ.details.duration % 60)).slice(-2);
+
+   // Right side 
+   const cardBPM = document.querySelector("#cardBPM");
+   const cardPopularity = document.querySelector("#cardPopularity");
+
+   const cardEnergy = document.querySelector("#cardEnergy");
+   const cardDanceability = document.querySelector("#cardDanceability");
+   const cardLiveness = document.querySelector("#cardLiveness");
+   const cardValence = document.querySelector("#cardValence");
+   const cardAcousticness = document.querySelector("#cardAcousticness");
+   const cardSpeechiness = document.querySelector("#cardSpeechiness");
+
+   cardBPM.textContent = SongOBJ.details.bpm + ' BPM,';
+   cardPopularity.textContent = 'Popularity: ' + SongOBJ.details.popularity;
+
+   cardDanceability.textContent = 'Danceability: ' +SongOBJ.analytics.danceability;
+   cardEnergy.textContent = 'Energy: ' + SongOBJ.analytics.energy;//songOBJ.returnSongTitle();
+   cardSpeechiness.textContent = 'Speechiness: ' + SongOBJ.analytics.speechiness;
+   cardAcousticness.textContent = 'Acousticness: ' + SongOBJ.analytics.acousticness;
+   cardValence.textContent = 'Valence: ' + SongOBJ.analytics.valence;
+   cardLiveness.textContent = 'Liveness: ' + SongOBJ.analytics.liveness;
 
    numData = [
       SongOBJ.analytics.danceability,
@@ -148,6 +169,7 @@ function addSongToTable(songOBJ, parent, playlist){
       document.querySelector('#thirdView').style.display = 'none';
       document.querySelector('#secondView').style.display = 'block';
    })
+   title.classList.add('mouseOverEvent');
    tr.appendChild(title);
 
    let artist = document.createElement("td");
@@ -419,6 +441,8 @@ function removeAllPlaylists(){
 }
 
 function addToPlaylistPopup(e, songId){
+   console.log('Created new popup!');
+
    let div = document.createElement('div');
    div.className = 'addToPlaylist';
    div.id = 'popupwindow';
@@ -436,7 +460,7 @@ function addToPlaylistPopup(e, songId){
    option.className = 'specialOption';
    select.appendChild(option);
 
-   let i = '';
+
    for(list in localStorage){
       if(localStorage.getItem(list) != null && list != 'songs'){
          let option = document.createElement('option');
@@ -444,7 +468,6 @@ function addToPlaylistPopup(e, songId){
          option.value = list;
          option.className = 'specialOption';
          select.appendChild(option);
-         i++;
       }
       
    }
@@ -468,13 +491,13 @@ function addToPlaylistPopup(e, songId){
          addToPlaylist(findSong(songId), inp.value)
          addPlaylistsToList();
       }
-      e.target.parentNode.remove();
+
    })
 
    div.appendChild(but);
 
    e.target.parentNode.appendChild(div);
-   
+
 }
  
 window.addEventListener('DOMContentLoaded', () => {

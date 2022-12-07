@@ -491,6 +491,7 @@ function addToPlaylistPopup(e, songId){
       } else {
          addToPlaylist(findSong(songId), inp.value)
          addPlaylistsToList();
+         e.target.parentNode.remove()
       }
 
    })
